@@ -14,7 +14,9 @@ public class PlayerController : MonoBehaviour
     Dictionary<PlayerAnimController.Motion, SkillData> m_skillTable = new Dictionary<PlayerAnimController.Motion, SkillData>();
     AttackAreaUnitFind[] m_attackArea;
     [SerializeField]
-    HUDText m_hudText;
+    HpBarController m_hpBar;
+    [SerializeField]
+    public HUDText m_hudText;
     [SerializeField]
     GameObject m_attackAreaObj;
     NavMeshAgent m_navAgent;
@@ -114,9 +116,10 @@ public class PlayerController : MonoBehaviour
         }
         return type;
     }
-    void SetDamagePlayer(AttackType attackType, float damage)
+    public void SetDamagePlayer(AttackType attackType, float damage)
     {
         m_status.hp -= Mathf.CeilToInt(damage);
+        m_hpBar.DisplayDamage(damage, m_status.hp / (float)m_status.hpMax);
 
     }
     Vector3 GetPadDir()

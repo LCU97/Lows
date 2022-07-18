@@ -55,10 +55,13 @@ public class MonsterController : MonoBehaviour
             var dot = Vector3.Dot(transform.forward, dir.normalized);
             if(dot >= 0.7071f)
             {
+                float damage = 0f;
                 var effect = Instantiate(m_fxHitPrefab);
                 Destroy(effect, 1f);
                 effect.transform.position = m_player.DummyHit.position; 
                 effect.transform.rotation = Quaternion.FromToRotation(effect.transform.forward, dir.normalized);
+                AttackType attackType = MonsterAttackProcess(m_player, out damage);
+                m_player.SetDamagePlayer(attackType, damage);
             }
         }
     }
@@ -230,7 +233,11 @@ public class MonsterController : MonoBehaviour
                 break;
         }
     }
-    AttackType MonsterAttackProcess(PlayerController player, out float damage)
+    void InitStatus()
+    {
+        m_status = new Status(500, 0f, 0f, 50f, 20f);
+    }
+    public AttackType MonsterAttackProcess(PlayerController player, out float damage)
     {
         AttackType type = AttackType.Normal;
         var plusdamage = Random.Range(0, 10f);
@@ -238,10 +245,7 @@ public class MonsterController : MonoBehaviour
         damage = CalculationDamage.NormalDamage(m_status.attack, 0f, player.MyStatus.defence) + plusdamage;
         return type;
     }
-    void InitStatus()
-    {
-        m_status = new Status(500, 0f, 0f, 50f, 20f);
-    }
+    
 
     // Start is called before the first frame update
     protected virtual void Awake()

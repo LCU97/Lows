@@ -1842,7 +1842,7 @@ MonoBehaviour:
     hpMax: 0
     criRate: 0
     criAttack: 0
-    attack: 0
+    attack: 50
     defence: 0
   m_state: 0
   m_hudCtr: {fileID: 2855274968431097198}
